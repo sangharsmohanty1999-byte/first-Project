@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Velvet Red Birthday Cake</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      text-align: center;
+      background: linear-gradient(150deg, #600020, #040907);
+      overflow: hidden;
+    }
+
+    h1 {
+      margin-top: 30px;
+      color: #fff;
+      text-shadow: 2px 2px #000;
+    }
+
+    .cake {
+      position: relative;
+      margin: 50px auto;
+      width: 220px;
+      height: 340px;
+    }
+
+    /* Velvet Cake Layers with shimmer */
+    .layer {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 20px;
+      background: linear-gradient(135deg, #8B0000, #B22222, #A52A2A);
+      border: 3px solid #fff;
+      box-shadow: 0 0 20px rgba(255,255,255,0.6);
+      overflow: hidden;
+    }
+    .layer.bottom { width: 220px; height: 70px; bottom: 0; }
+    .layer.middle { width: 160px; height: 55px; bottom: 70px; }
+    .layer.top    { width: 110px; height: 45px; bottom: 125px; }
+
+    /* Shimmer overlay */
+    .layer::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -150%;
+      width: 250%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        60deg,
+        rgba(255, 215, 0, 0.15) 0px,
+        rgba(255, 215, 0, 0.15) 2px,
+        transparent 3px,
+        transparent 6px
+      );
+      animation: shimmerMove 6s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes shimmerMove {
+      from { transform: translateX(0); }
+      to   { transform: translateX(50%); }
+    }
+
+    /* White Cream Swirls */
+    .layer::before {
+      content: "";
+      position: absolute;
+      top: -15px;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background: radial-gradient(circle, #fff 40%, transparent 41%) repeat-x;
+      background-size: 20px 20px;
+      filter: drop-shadow(0 0 5px gold);
+    }
+
+    /* Pearls */
+    .pearls {
+      position: absolute;
+      bottom: -12px;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+    }
+    .pearl {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 10px gold;
+    }
+
+    /* Ribbon */
+    .ribbon {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120%;
+      height: 25px;
+      background: linear-gradient(to right, #fff, #ffcccb);
+      border-radius: 15px;
+    }
+    .ribbon::after {
+      content: "🎀";
+      font-size: 22px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -12px;
+    }
+
+    /* Candles */
+    .candle {
+      position: absolute;
+      width: 14px;
+      height: 40px;
+      background: linear-gradient(white, red);
+      border-radius: 3px;
+      bottom: 170px;
+    }
+    .candle1 { left: 30%; }
+    .candle2 { left: 47%; }
+    .candle3 { left: 64%; }
+
+    /* Flame with Sparks */
+    .flame {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      width: 16px;
+      height: 22px;
+      background: radial-gradient(circle, yellow 40%, orange 70%, red 90%);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      animation: flicker 0.3s infinite alternate;
+      box-shadow: 0 0 20px gold, 0 0 40px orange;
+    }
+    @keyframes flicker {
+      from { transform: translateX(-50%) scale(1); opacity: 1; }
+      to   { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
+    }
+
+    /* Continuous Smoke effect */
+    .smoke {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      width: 14px;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      transform: translateX(-50%) scale(1);
+      animation: rise 3s infinite;
+    }
+    @keyframes rise {
+      0%   { opacity: 0.8; transform: translate(-50%, 0) scale(0.6); }
+      50%  { opacity: 0.5; transform: translate(-50%, -30px) scale(1.2); }
+      100% { opacity: 0;   transform: translate(-50%, -80px) scale(1.8); }
+    }
+
+    /* Countdown */
+    #countdown {
+      margin-top: 20px;
+      font-size: 2rem;
+      color: #fff;
+      text-shadow: 1px 1px #000;
+    }
+
+    /* Blow button */
+    #blowBtn {
+      display: none;
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      background: #ff2a70;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+
+    /* Next button */
+    button.next {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      background: #ff6fa5;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      display: none;
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: white;
+      top: -10px;
+      animation: fall linear forwards;
+    }
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(720deg); }
+    }
+
+    /* Fireworks */
+    .firework {
+      position: fixed;
+      bottom: 0;
+      width: 4px;
+      height: 20px;
+      background: gold;
+      animation: shoot 1s ease-out forwards;
+    }
+    @keyframes shoot {
+      to { transform: translateY(-80vh); opacity: 0; }
+    }
+
+    .particle {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: gold;
+      animation: explode 1s forwards;
+      box-shadow: 0 0 10px gold, 0 0 20px yellow;
+    }
+    @keyframes explode {
+      from { transform: translate(0,0) scale(1); opacity: 1; }
+      to { transform: translate(var(--x), var(--y)) scale(0.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy Birthday 🎉</h1>
+
+  <div class="cake">
+    <div class="layer bottom"><div class="pearls"></div></div>
+    <div class="layer middle"><div class="pearls"></div></div>
+    <div class="layer top"><div class="pearls"></div></div>
+    <div class="ribbon"></div>
+
+    <!-- Candles -->
+    <div class="candle candle1"><div class="flame"></div></div>
+    <div class="candle candle2"><div class="flame"></div></div>
+    <div class="candle candle3"><div class="flame"></div></div>
+  </div>
+
+  <div id="countdown">5</div>
+
+  <button id="blowBtn">🎤 Blow Candles</button>
+  <button class="next" onclick="window.location.href='video.html'">Get Your Special Wish 🎥</button>
+
+  <iframe src="music.html" allow="autoplay" style="display:none;" id="music-frame"></iframe>
+
+  <script>
+    let timeLeft = 5;
+    const countdownEl = document.getElementById("countdown");
+    const flames = document.querySelectorAll(".flame");
+    const blowBtn = document.getElementById("blowBtn");
+    const nextBtn = document.querySelector(".next");
+
+    // Countdown
+    const timer = setInterval(() => {
+      timeLeft--;
+      countdownEl.textContent = timeLeft;
+      if (timeLeft === 0) {
+        clearInterval(timer);
+        countdownEl.textContent = "Now make a wish and blow candles!";
+        blowBtn.style.display = "inline-block";
+      }
+    }, 1000);
+
+    // Fireworks
+    function launchFireworks() {
+      let duration = 10000; // 10 seconds
+      let endTime = Date.now() + duration;
+
+      function shootFirework() {
+        if (Date.now() > endTime) return;
+        const firework = document.createElement("div");
+        firework.classList.add("firework");
+        firework.style.left = `${Math.random()*100}vw`;
+        document.body.appendChild(firework);
+
+        setTimeout(() => {
+          for (let i = 0; i < 30; i++) {
+            const particle = document.createElement("div");
+            particle.classList.add("particle");
+            particle.style.left = firework.style.left;
+            particle.style.top = "20%";
+            particle.style.setProperty("--x", `${(Math.random()-0.5)*200}px`);
+            particle.style.setProperty("--y", `${(Math.random()-0.5)*200}px`);
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 1000);
+          }
+          firework.remove();
+        }, 1000);
+
+        setTimeout(shootFirework, 300);
+      }
+      shootFirework();
+    }
+
+    // Blow action
+    blowBtn.addEventListener("click", () => {
+      blowBtn.disabled = true;
+      setTimeout(() => {
+        flames.forEach(f => {
+          f.style.display = "none";
+
+          // continuous smoke after blow
+          setInterval(() => {
+            const smoke = document.createElement("div");
+            smoke.classList.add("smoke");
+            f.parentElement.appendChild(smoke);
+            setTimeout(() => smoke.remove(), 3000);
+          }, 800);
+        });
+
+        launchFireworks();
+
+        // Confetti
+        for (let i = 0; i < 80; i++) {
+          const confetti = document.createElement("div");
+          confetti.classList.add("confetti");
+          confetti.style.left = `${Math.random()*100}vw`;
+          confetti.style.animationDuration = `${2+Math.random()*3}s`;
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 5000);
+        }
+
+        blowBtn.style.display = "none";
+        nextBtn.style.display = "inline-block";
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

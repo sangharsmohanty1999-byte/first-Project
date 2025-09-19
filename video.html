@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Special Video Wish</title>
+<style>
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #ffe6f2, #d4e6ff);
+  font-family: Arial, sans-serif;
+  color: #333;
+  text-align: center;
+  min-height: 100vh;   /* allows natural scroll if needed */
+}
+
+/* Heading at top */
+h1 {
+  color: #ff2a70;
+  margin: 20px 10px;
+  text-shadow: 2px 2px #fff;
+}
+
+/* Video centered safely */
+.video-container {
+  margin: 20px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+video {
+  width: 80%;
+  max-width: 600px;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* Button section */
+.button-container {
+  margin: 40px 0;
+}
+button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  background: #ff2a70;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+button:hover {
+  background: #e61c60;
+}
+</style>
+</head>
+<body>
+  <h1>🎥 Here’s a Special Wish for You 💖</h1>
+  
+  <!-- Centered Video -->
+  <div class="video-container">
+    <video autoplay muted loop>
+      <source src="wish.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Continue Button below video -->
+  <div class="button-container">
+    <button onclick="goNext()">Continue ➡️</button>
+  </div>
+
+  <!-- Background Music (from iframe for continuity) -->
+  <iframe src="music.html" allow="autoplay" style="display:none;" id="music-frame"></iframe>
+
+<script>
+  function goNext() {
+    window.location.href = "surprise.html";
+  }
+</script>
+</body>
+</html>

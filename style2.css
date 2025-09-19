@@ -1,0 +1,153 @@
+/* ========== Reset & Base ========== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #fff;
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+  overflow-x: hidden;
+  text-align: center;
+}
+
+/* Page container */
+.page {
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.page--tight { padding-top: 48px; }
+
+/* Typography */
+.title {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  text-shadow: 0 0 10px rgba(255,255,255,.4);
+  margin-bottom: 10px;
+}
+.subtitle {
+  font-size: clamp(1.4rem, 4.5vw, 2.2rem);
+  text-shadow: 0 0 10px rgba(255,255,255,.4);
+  margin-bottom: 10px;
+  font-style: oblique;
+}
+.message {
+  max-width: 720px;
+  font-size: clamp(1rem, 2.8vw, 1.25rem);
+  opacity: .95;
+  margin: 10px auto 20px;
+}
+
+/* Buttons */
+.next-btn {
+  margin-top: 22px;
+  padding: 12px 26px;
+  font-size: 1.05rem;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: #ff6fa5;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease;
+}
+.next-btn:hover { transform: translateY(-2px) scale(1.02); background: #ff4c8a; }
+
+/* ========== Cake ========== */
+.center-cake {
+  position: relative;
+  display: inline-block;
+  margin: 18px auto;
+}
+.cake-img {
+  width: min(65vw, 260px);
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.35);
+  animation: popIn .8s ease;
+  background: transparent;
+}
+@keyframes popIn {
+  from { transform: scale(.8); opacity: 0; }
+  to   { transform: scale(1);  opacity: 1; }
+}
+
+/* Flickering flame you can nudge with CSS vars: --flame-top / --flame-left */
+.flame-effect {
+  position: absolute;
+  top: var(--flame-top, 8%);
+  left: var(--flame-left, 50%);
+  transform: translate(-50%, -100%);
+  width: 16px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 55%, #ffd85a 0%, #ff9f2e 55%, rgba(255,159,46,0) 70%);
+  box-shadow: 0 0 12px 4px rgba(255, 193, 7, .7), 0 0 30px 10px rgba(255, 107, 0, .35);
+  animation: flicker .25s infinite alternate;
+}
+@keyframes flicker {
+  from { transform: translate(-50%, -100%) scale(1);   opacity: 1; }
+  to   { transform: translate(-50%, -100%) scale(1.18); opacity: .75; }
+}
+
+/* ========== 3D Carousel on slideshow.html ========== */
+/* Adds perspective to the scene */
+.carousel-wrap {
+  width: 100%;
+  height: 70vh;
+  max-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+}
+
+/* Rotating ring */
+.carousel {
+  position: relative;
+  width: min(80vmin, 700px);
+  height: min(58vmin, 500px);
+  transform-style: preserve-3d;
+  animation: spin 22s linear infinite;
+}
+
+/* Photos on the ring */
+.carousel img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(28vmin, 220px);
+  height: min(38vmin, 300px);
+  object-fit: cover;
+  border-radius: 14px;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 14px 28px rgba(0,0,0,.4);
+}
+
+/* Rotation animation */
+@keyframes spin {
+  from { transform: rotateY(0deg);   }
+  to   { transform: rotateY(360deg); }
+}
+
+.footer-note {
+  margin-top: 10px;
+  font-size: .95rem;
+  opacity: .85;
+}
+
+/* ========== Confetti (light) ========== */
+@keyframes confFall {
+  0%   { transform: translateY(-10vh) rotate(0);     opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+.confetti {
+  position: fixed;
+  top: -20px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  pointer-events: none;
+  animation: confFall linear forwards;
+}
