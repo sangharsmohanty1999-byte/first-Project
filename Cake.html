@@ -76,6 +76,34 @@
       background-size: 20px 20px;
       filter: drop-shadow(0 0 5px gold);
     }
+/* Cream Swirls */
+    .layer::before {
+      content: "";
+      position: absolute;
+      top: -10%;
+      left: 0;
+      width: 100%;
+      height: 20%;
+      background: radial-gradient(circle, #fff 40%, transparent 41%) repeat-x;
+      background-size: 15% 100%;
+      filter: drop-shadow(0 0 0.4vw gold);
+    }
+
+    /* Pearls */
+    .pearls {
+      position: absolute;
+      bottom: -12%;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+    }
+    .pearl {
+      width: 6%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 0.6vw gold;
+    }
 
     /* Pearls */
     .pearls {
@@ -279,7 +307,7 @@
 
     // Fireworks
     function launchFireworks() {
-      let duration = 10000; // 10 seconds
+      let duration = 30000; // 30 seconds
       let endTime = Date.now() + duration;
 
       function shootFirework() {
