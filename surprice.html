@@ -10,31 +10,73 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+
+    <style>
+        /* Popup overlay */
+        #message-box {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: none;
+            background: rgba(250, 247, 247, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        #message-content {
+            background: transparent;
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 80%;
+            font-size: 20px;
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+            position: relative;
+        }
+        #message-content button {
+            margin-top: 15px;
+            padding: 8px 16px;
+            border: none;
+            background: #ff4081;
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #message-content button:hover {
+            background: #e91e63;
+        }
+    </style>
 </head>
 <body>
     <div id="drag-container">
         <div id="spin-container">
-            <img src="./images/m1.jpg" alt="">
-            <img src="./images/m2.jpg" alt="">
-            <img src="./images/m3.jpg" alt="">
-            <img src="./images/m4.jpg" alt="">
-            <img src="./images/m5.jpg" alt="">
-            <img src="./images/m6.jpg" alt="">
-            <img src="./images/m7.jpg" alt="">
-            <img src="./images/m8.jpg" alt="">
-            <img src="./images/m9.jpg" alt="">
-            <img src="./images/m10.jpg" alt="">
-            <p style="font-family: Arial, Helvetica, sans-serifcl;">Happy Birthday Arpita </p>
+            <img src="./images/m1.jpg" alt="" data-message="You make every moment special 💖">
+            <img src="./images/m2.jpg" alt="" data-message="Forever grateful for you 🌹">
+            <img src="./images/m3.jpg" alt="" data-message="You’re my sunshine ☀️">
+            <img src="./images/m4.jpg" alt="" data-message="Life is better with you 💕">
+            <img src="./images/m5.jpg" alt="" data-message="You light up my world ✨">
+            <img src="./images/m6.jpg" alt="" data-message="Happiness means You 🥰">
+            <img src="./images/m7.jpg" alt="" data-message="My heart beats for you ❤️">
+            <img src="./images/m8.jpg" alt="" data-message="You’re my best gift 🎁">
+            <img src="./images/m9.jpg" alt="" data-message="I wish you endless joy 🌸">
+            <img src="./images/m10.jpg" alt="" data-message="Happy Birthday Arpita 🎂💝">
+            <p style="font-family: Arial, Helvetica, sans-serif;">Happy Birthday Arpita</p>
         </div>
         <div id="ground"></div>
     </div>
     
-    <div id="music-container"></div>
-    <!-- <div id="canva">
-        <canvas id="canvas"></canvas>
-    </div> -->
+    <!-- Special message popup -->
+    <div id="message-box">
+        <div id="message-content">
+            <p id="popup-text"></p>
+            <button onclick="closeMessage()">Close</button>
+        </div>
+    </div>
 
-    <!-- Audio tự động phát -->
+    <div id="music-container"></div>
+
+    <!-- Audio -->
     <audio id="myAudio" autoplay playsinline>
         <source src="music/setlove.mp3" type="audio/mpeg">
         <source src="music/setlove.ogg" type="audio/ogg">
@@ -43,103 +85,31 @@
     <script src="main.js"></script>
 
     <script>
+        // Music auto play
         window.onload = function() {
             var audio = document.getElementById("myAudio");
             audio.muted = false;
             audio.play().catch(function(e) {
                 console.log('Audio playback failed:', e);
             });
-
-            // Hiệu ứng pháo hoa và trái tim
-            const canvas = document.getElementById("canvas");
-            const ctx = canvas.getContext("2d");
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            function random(min, max) {
-                return Math.random() * (max - min) + min;
-            }
-
-            function Firework(x, y) {
-                this.x = x;
-                this.y = y;
-                this.radius = random(2, 4);
-                this.color = `hsl(${random(0, 360)}, 100%, 50%)`;
-                this.vx = random(-3, 3);
-                this.vy = random(-3, 3);
-                this.life = 100;
-            }
-
-            Firework.prototype.draw = function () {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            };
-
-            Firework.prototype.update = function () {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.life--;
-            };
-
-            function Heart(x, y) {
-                this.x = x;
-                this.y = y;
-                this.size = random(20, 40);
-                this.color = 'red';
-                this.vy = random(-2, -1);
-                this.opacity = 1;
-            }
-
-            Heart.prototype.draw = function () {
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.bezierCurveTo(this.x - this.size / 2, this.y - this.size / 2, this.x - this.size, this.y + this.size / 3, this.x, this.y + this.size);
-                ctx.bezierCurveTo(this.x + this.size, this.y + this.size / 3, this.x + this.size / 2, this.y - this.size / 2, this.x, this.y);
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = this.opacity;
-                ctx.fill();
-                ctx.globalAlpha = 1;
-            };
-
-            Heart.prototype.update = function () {
-                this.y += this.vy;
-                this.opacity -= 0.01;
-            };
-
-            let fireworks = [];
-            let hearts = [];
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                if (Math.random() < 0.1) {
-                    fireworks.push(new Firework(random(0, canvas.width), random(0, canvas.height)));
-                }
-                if (Math.random() < 0.05) {
-                    hearts.push(new Heart(random(0, canvas.width), canvas.height));
-                }
-
-                fireworks.forEach((firework, index) => {
-                    firework.draw();
-                    firework.update();
-                    if (firework.life <= 0) {
-                        fireworks.splice(index, 1);
-                    }
-                });
-
-                hearts.forEach((heart, index) => {
-                    heart.draw();
-                    heart.update();
-                    if (heart.opacity <= 0) {
-                        hearts.splice(index, 1);
-                    }
-                });
-
-                requestAnimationFrame(animate);
-            }
-            animate();
         };
+
+        // Popup feature
+        const images = document.querySelectorAll("#spin-container img");
+        const messageBox = document.getElementById("message-box");
+        const popupText = document.getElementById("popup-text");
+
+        images.forEach(img => {
+            img.addEventListener("click", () => {
+                const msg = img.getAttribute("data-message");
+                popupText.innerText = msg;
+                messageBox.style.display = "flex";
+            });
+        });
+
+        function closeMessage() {
+            messageBox.style.display = "none";
+        }
     </script>
 </body>
 </html>
